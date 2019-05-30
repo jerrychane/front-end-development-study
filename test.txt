@@ -1,1 +1,2 @@
 今天是2019年5月30日
+在repository设置ignore files
