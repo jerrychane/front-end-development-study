@@ -217,4 +217,26 @@ componentWillMount既可以在服务器端被调用，也可以在浏览器端�
 #### 2.3.2 更新过程 ####
 当组件被装载到DOM树上之后，若要为用户提供更多的交互体验，随着用户操作改变而展现内容，props或state此时被修改，就会引发组件的更新过程。更新过程依次经历以下生命周期函数(并不是所有的更新过程都要执行全部函数。)：<br>
 **1.componentWillReceiveProps 2.shouldComponentUpdate 3.componentWillUpdate 4.render 5.componentDidUpdate**<br>
-1.componentWillReceiveProps(nextProps)
+
+**1.componentWillReceiveProps(nextProps)**
+父组件的render函数被调用，在render函数里面被渲染的子组件就会经历更新过程，不管父组件传给子组件的props有没有改变，都会触发子组件的componentWillReceiveProps函数。<br>
+注意，通过this.setState方法触发的更新过程不会调用这个函数，这是因为这个函数适合**根据新的props值**(**也就是nextProps**)来计算出是不是要更新内部状态state。更新组件内部状态的方法就是this.setState,如果this.setState的调用导致componentWillReceiveProps再调用一次，那就是个死循环。<br>
+forceUpdate()函数的作用是强行引发重新绘制。nextProps代表的是这一次渲染传入的props值，this.props代表的上一次渲染时的props值，只有两者有变化的时候才有必要调用this.setState更新内部状态。
+
+**2.shouldComponentUpdate(nextProps,nextState)**<br>
+除了render函数，shouldComponentUpdate可能是React组件生命周期中最重要的一个函数了。说render函数重要，是因为render决定了该渲染什么，而说shouldComponentUpdate函数重要，是因为它**决定了一个组件什么时候不需要渲染**。<br>
+render函数的返回结构将用于构造DOM对象，而shouldComponentUpdate函数返回一个布尔值，返回true,继续更新过程，接下来调用render函数；false，就停止更新，也不会引发后续渲染。<br>
+说shouldComponentUpdate重要，是因为该函数可以发现没有必要渲染的情况下，不去渲染，从而提高React渲染的性能。<br>
+shouldComponentProps函数的参数是接下来的props和state值，根据这两个参数，外加this.props和this.state来判断出是返回ture还是false。<br>
+
+**3.componentWillUpdate和componentDidUpdate**
+如果组件的shouldComponentUpdate函数返回true,React接下来就会依次调用对应组件的componentWillUpdate、render和componentDidUpdate函数。
+
+#### 2.3.3 卸载过程 ####
+React组件的卸载过程只涉及一个函数componentWillUnMount，当组件要从DO树上删除之前，该函数被调用。
+### 2.4 组件向外传递数据 ###
+**问题：希望ControlPanel能够即时显示出这三个子组件当前计数值之和**<br>
+**思路：**解决这个问题的方法，依然要用到prop,将函数作为prop的值从父组件传递给子组件，又可以被子组件作为函数调用。
+
+2.4.1 应用实例
+
