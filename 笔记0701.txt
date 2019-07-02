@@ -1,0 +1,483 @@
+﻿
+
+============================2019.07.02 Tue. 26Weeks Beijing====================
+1.常见js内存泄漏
+内存泄漏是指由于疏忽或错误造成程序未能释放已经不再使用的内存。内存泄漏并非指内存在物理上的消失，而是应用程分配某段内存后，由于设计错误，导致在释放该段内存之前就失去了对该段内存的控制，从而造成了内存的浪费。内存泄漏通常情况下只能由获得程序源代码的程序员才能分析出来。
+1、意外的全局变量(解决办法:use strict)；
+2、console.log();
+3、closure;DOM泄漏;
+4、timers;
+5、EventListener(做移动开发时，需要对不同设备尺寸做适配。如在开发组件时，有时需要考虑处理横竖屏适配问题。一般做法，在横竖屏发生变化时，需要将组件销毁后再重新生成。而在组建中会对其进行相关事件绑定，如果在销毁组件时，没有将组件的事件解绑，在横屏发生变化时，就会不断地对组件进行事件绑定。这样就会导致一些异常，甚至会导致页面崩掉。)
+
+2.Vue移动端适配问题
+rem和vm方案
+兼容性：rem>vm
+rem在设置根字体大小后，无法匹配各种终端；
+工具：webpack,postcss,postcss-pxtorem
+vue-cli：实现webpack，快速构建项目；postcss用js插件帮你转换css样式，自动将px转换为rem；postcss-pxtorem,把px转换为rem，用js代码动态计算根目录应该有的字体大小，反正就是用一段js代码去动态获取屏幕宽度。
+vm:相对屏幕的百分比，不用再去动态地改变根字体的大小，只需要把750px转换成相应的vw值即可(postcss),viewportWidth:750,unitPrecison是vw值保留的小数点个数。
+自己项目适配配置(实践)
+插件：amfe-flexible + postcss-px2rem; amfe-flexible可以根据不同设备改变data-dpr的值，这样就可以根据不同的data-dpr设置字体大小不变，仅放大相应倍数。
+
+3.Vue调试
+调试方法: vue插件;console.log();console.error();alert();debugger; vm实例，window对象绑定(cdn模式下)
+
+4.开发工作流
+需求调研(确定需求)
+交互设计、逻辑设计、接口设计
+代码实现(20%)、测试运行(10%)、线上部署
+
+git --version
+git branch -a
+git add . 添加所有本地文件
+git remote -v 推送的远程仓库地址
+git push origin master
+git checkout -b dev 创建并切换到新的分支
+git push origin dev
+git checkout master
+git merge dev
+git branch -D dev 删除本地dev的分支
+git push orgin :dev 删除远程dev的分支
+git reset --hard head^ 退回上一个版本
+
+============================2019.07.01 Mon. 26Weeks Beijing====================
+一.原型和原型链
+1.何时使用===和==
+if(obj.a == null){
+  // 这里相当于obj.a === null || obj.a === undefined,简写形式
+  // 这是jquery源码中推荐的写法
+}
+其他情况中都用===
+2.JS内置函数(10个)，数据封装类型
+String,Number,Date,Boolean,Object,Array,Function,RegExp,Error,JSON
+3.如何理解json
+json只不过是一个js对象而已，JSON.stringify,JSON.parse，json是一种数据格式。
+4.怎么判断一个变量是true还是false？
+!!a == true  !!'abc' == true
+'' NaN null undefined false 0 会被转换为false
+5.通过Symbol生成的变量都是不相等的，防止变量值被覆盖。
+6.如何准确判断一个变量是数组类型
+var arr=[]
+arr intanceof Array //true
+7.写一个贴近实际开发的原型链继承的例子
+	写一个封装DOM查询的例子
+	function Elem(id) {
+		this.elem = document.getElementById(id)
+	}
+	Elem.prototype.html=function(val){
+		var elem = this.elem;
+		if(val) {
+			elem.innerHTML = val;
+			return this // 链式操作
+		}else{
+			return elem.innerHTML;
+			}
+	}
+	Elem.prototype.on = function(type,fn) {
+		var elem = this.elem;
+		elem.addEventListener(type,fn);
+		return this;//链式操作
+	}
+	var div1 = new Elem("div1");
+	//	console.log(div1.html());
+	div1.html("<p>hell jerry</p>").on("click",function(){
+		alert("click");
+	})
+8.描述new一个对象的过程
+	创建一个新对象
+	this指向这个新对象
+	执行代码，即对this赋值
+	返回this
+9.zepto或其他框架中源码如何使用原型链
+	阅读源码是高效提高技能的方式
+	但不能“埋头苦钻”有技巧在其中
+	zepto设计和源码分析
+构造函数-扩展
+var a={} 其实是var a=new Object()的语法糖；
+var a=[] 其实是var a=new Array()的语法糖；
+function Foo(){...}其实是var Foo=new Function(...)
+使用instanceof 判断一个函数是否是一个变量的构造函数。
+	作用：用于判断引用类型属于哪个构造函数的方法。
+	判断一个变量是否为“数组”，变量 instanceof Array
+10.原型规则和实例--5条原型规则，是学习原型链的基础(important!!!)
+	1.所有的引用类型(数组、对象、函数)，都具有对象特性，即可自由扩展属性(除了“null”以外)
+	2.所有的引用类型(数组、对象、函数)，都有一个__proto__(隐式原型)属性，属性值是一个普通的对象
+	3.所有的函数，都有一个prototype(显式原型)属性，属性值也是一个普通的对象
+	4.所有的引用类型(数组、对象、函数)，__proto__属性值指向(完全等于===)它的构造函数的prototype属性值
+	5.当试图得到一个引用类型(数组、对象、函数)的某个属性时，如果这个对象本身没有这个属性，那么会去它的__proto__(即它的构造函数的prototype)中寻找(原型链)
+var item 
+for (item in f ){
+	//高级浏览器已经在for in中屏蔽了来自原型的属性
+	//但是在这里建议大家还是加上这个判断，保证程序的健壮性
+	if(f.hasOwnProperty(item)){
+		console.log(item);
+	}
+}
+二.作用域和闭包
+11.说一下对变量提升的理解
+执行上下文(在执行前占位，变量提升)
+范围：一段<script>或者一个函数
+全局：变量定义、函数声明
+函数：变量定义、函数声明、this、arguments
+PS；注意函数声明和函数表达式的区别
+function fn1(){} //函数声明
+var fn2 = function(){}//函数表达式
+函数声明有函数声明提升；函数表达式没有函数声明提升。
+
+12.说明this几种不同的使用场景
+	this要在执行时才能确认值，定义时无法确认,函数当前是被哪个对象调用执行，就指向那个对象。
+	(1)作为构造函数执行 => 执行时，this指向实例化后的对象
+	(2)作为对象属性执行 => 执行时，this指向被调用的对象
+	(3)作为普通函数执行 => 执行时，this指向window
+	(4)作为箭头函数执行 => 执行时，this取最近的父作用域
+	(5)call apply bind
+13.创建10个<a>标签，点击的时候弹出相对应的序号
+ 
+14.如何理解作用域
+	作用域：js没有块级作用域，只有函数和全局作用域。
+	作用域链：当前作用域没有定义的变量，即“自由变量”，会去它的父级作用域(定义时)中寻找定义的变量。
+	
+15.实际开发中闭包的应用
+	闭包1：函数作为返回值
+	function F1() {
+		var a = 100;
+		return function(){
+		 console.log(a);// a自由变量，向父作用域去寻找--函数**定义**时的父作用域
+		}
+	}
+	var f1 = F1();
+	var a = 200;
+	f1(); // 100
+    闭包2：函数作为参数传递
+	function F1() {
+		var a = 100;
+		return function(){
+		 console.log(a);// a自由变量，向父作用域去寻找--函数**定义**时的父作用域
+		}
+	}
+	var f1 = F1();
+	function F2(fn) {
+		var a = 300;
+		fn();
+	}
+	F2(f1);//100
+	// 封装变量，收敛权限,是否第一次登录
+	function isFirstLoad() {
+		var _list = [];//_带下划线表示变量私有
+		return function(id){
+			if(_list.indexOf(id)>=0) {
+				return false;
+			}else{
+				_list.push(id);
+				return true;
+			}
+		}
+	}
+	var firstLoad = isFirstLoad();
+	firstLoad(10);//true
+	firstLoad(10);//false
+	// 你在isFistLoad函数外面，根本不可能修改掉_list的值
+
+	三.异步和单线程
+	1.同步和异步的区别是什么？分别举一个同步和异步的例子
+		何时需要异步：在可能发生等待的情况下；等待过程中不能像alert一样阻塞程序运行；因此，所有的“等待的情况”都需要等待
+	2.一个关于setTimeout的笔试题
+
+	3.前端使用异步的场景
+		定时任务：setTimeout,setInterval
+		网络请求：ajax请求，动态<img>加载
+		事件绑定
+四.其他知识
+1.获取随机数，要求是长度一致的字符串格式
+var random = Math.random();
+var random = random + "0000000000" // 后面加上10个零
+var random = random.slice(0,10);
+console.log(random);
+
+2.针对数组和对象的通用forEach函数
+function forEach(obj,fn) {
+	var key;
+	if(obj instanceof Array){ // 判断对象是数组
+		obj.forEach(function(item,index){
+			fn(index,item); // 注意在使用时的顺序，index在前，item在后
+		})
+	}else{
+			for(key in obj){
+				if(obj.hasOwnProperty(key)){
+				  fn(key,obj[key])
+				}
+			
+			}
+		}
+}
+var arr = [1,2,3];
+forEach(arr,function (index,item) {
+	console.log(index,item);// 注意在使用时的顺序，index在前，item在后
+})
+var obj = {x:100,y:200}
+forEach(obj,function (key,value) {
+	console.log(key,value);
+})
+
+五.JS-Web-API
+W3C标准中关于JS的规定有：DOM操作，BOM操作，事件绑定，ajax请求(包括http协议)，存储
+1.全面考虑，JS内置的全局函数和对象有哪些?
+String,Number,Date,Boolean,Object,Array,Function,RegExp,Error,JSON
+Window,Document,Location,History,Navigator，Screen
+Global,Fs
+常说的JS(浏览器执行的JS)包含两部分：JS基础知识(ECMA262标准)，JS-Web-API(W3C标准)
+2.DOM是哪种基本的数据结构？(树)
+DOM本质：浏览器拿到html后，DOM把html代码结构结构化成浏览器可识别以及JS可识别的东西。html代码是一个字符串，但是浏览器已经把字符串结构化成树形结构了。
+DOM节点
+DOM操作
+新增节点 createElement(新增),appendChild(移动)
+获取父节点 parentElement
+获取子节点 children,firstElementChild,lastElementChild ,nextElementSibling,previousElementSibling
+删除节点 removeChild
+3.DOM操作的常用API有哪些?
+查找：getElementById(); getElementsByTagName();getElementsByClassName();getElementsByName();querySelectorAll();querySelector()
+修改：getAttribute(attr,value),setAttribute(attr,value)
+4.DOM节点的attr和property有何区别?
+attr:html标签的属性  property:js对象的属性
+六.JS-Web-事件
+1.编写一个通用的事件监听函数
+关于IE低版本的兼容性
+IE低版本使用attachEvent绑定事件，和W3C标准不一样
+IE低版本使用量非常少，很多网站都早已不支持
+建议对IE低版本的兼容性：了解即可，无需深究
+如果遇到对IE低版本要求苛刻的面试，果断放弃
+通用事件代理过程
+function bindEvent(elem,type,selector,fn) {
+    if(fn==null){
+      fn=selector;
+      selector=null;
+    }
+    elem.addEventListener(type,function(e){
+      var target;
+      if(selector) {
+        target=e.target;
+        if(target.matches(selector)){
+          fn.call(target,e);
+        }
+      }else{
+        fn(e);
+      }
+    })
+  }
+  //使用代理
+  var div1=document.getElementById('div1');
+  bindEvent(div1,'click','a',function(e){
+    console.log(this.innerHTML);
+  })
+  //不使用代理
+  var a=document.getElementById('a1');
+  bindEvent(div1,'click',function(e){
+    console.log(a.innerHTML);
+  })
+2.描述事件冒泡流程
+DOM树形结构
+事件冒泡
+组织冒泡
+冒泡的应用--事件代理
+
+3.对于一个无限下拉加载图片的页面，如何给每个图片绑定事件
+4.readyState
+	0-(未初始化) 还没有调用send()方法
+	1-(载入) 已经调用send()方法，正在发送请求
+	2-(载入完成) send()方法执行完成，已经接收到全部响应内容
+	3-(交互)正在解析响应内容
+	4-(完成)响应内容解析完成，可以在客户端调用了
+5.status
+	2xx-表示成功处理请求，如200
+	3xx-需要重定向，浏览器直接跳转
+	4xx-客户端请求错误，如404
+	5xx-服务器端错误
+6.什么是跨域？JSONP、服务端设置http header
+跨域的同源策略
+<img>用于打点统计，统计网站可能是其他域
+<link><script>可以使用CDN，CDN的可能是其他域
+<script>可以用于JSONP
+所有的跨域请求都必须经过信息提供方允许，如果未经允许即可获取，那是浏览器同源策略出现漏洞。
+JSONP实现原理
+<script>
+	window.callback = function(data){
+		//这是我们跨域得到信息
+		console.log(data)
+	}
+</script>
+<script src="http://coding.m.imooc.com/api.js"></script>
+// 以上将返回 callback({x:100,y:200})
+服务端设置http header
+另外一个解决跨域的简洁方法，需要服务端来设置
+
+7.cookie，sessionStorage,localStorage(95%使用)的区别
+容量-是否会携带到ajax中-API易用性-时效性
+cookie:本身用于客户端和服务端通信；但是它有本地存储的功能，于是就被“借用”；使用document.cookie=...获取和修改即可。
+cookie:用于存储的缺点 存储量太小，只有4KB；所有http请求都带着，会影响获取资源的效率；API简单，需要封装才能用 document.cookie=...
+localStorage和sessionStorage
+HTML5专门为存储而设计，最大容量为5M。
+API简单易用:localStorage.setItem(key,value)和localStorage.getItem(key);
+在iOS safari隐藏模式下，localStorage.getItem会报错；建议统一使用try-catch封装
+
+8.关于开发环境
+面试官想通过开发环境了解面试者的经验
+开发环境，最能体现工作产出的效率
+会以聊天的形式为主，而不是出具体的问题
+关于开发环境
+IDE(写代码的效率) webstorm sublime vscode atom 插件 插件 插件 快捷键
+如果要走大牛、大咖、逼格的路线，就用webstorm
+如果你走普通、屌丝、低调路线，就用sublime
+如果你走小清新、个性路线、就用vscode或者atom
+千万不要说你使用Dreamweaver或者notepad++
+
+git(代码版本管理，多人协作开发)
+正式项目都需要代码版本管理
+大型项目需要多人协作开发
+Git和Linux是一个作者
+git add.  添加所有修改文件(新建+修改)
+git checkout xxx  还原
+git commit -m "xxx"  提交到本地
+git push origin master  提交远程
+git pull origin master  远程下载
+git branch 分支
+git checkout -b xxx/ git checkout xxx
+git merge xxx
+git init
+git --version
+git status
+cat 
+vi a.js 创建并打开a.js文件
+:wq 保存并退出
+git diff
+
+
+js模块化
+不使用模块化
+util.js getFormatDate函数
+a-util.js aGetFormatDate函数 getFormatDate函数
+a.js aGetFormatDate函数
+AMD - require.js  define,require
+CMD - CommonJS nodejs模块化规范，现在被大量用前端，原因：前端开发依赖的插件和库，都可以从npm中获取；构建工具的高度自动化，使得使用npm的成本非常低；CommonJS不会异步加载JS，而是同步一次性加载出来。
+AMD和CommonJS的使用场景
+需要异步加载JS,使用AMD
+使用了npm之后建议使用CommonJS
+
+
+打包工具
+初始化 npm init
+压缩js代码  plugin:[new webpack.optimize.uglifyJsPlugin]
+Devdependencies 开发环境需要的依赖 --save-dev
+dependencies 开发环境和生产环境都需要的依赖 --save
+
+上线回滚的流程
+是非常重要的开发环节
+各个公司的具体流程不同
+由专门的工具后台系统完成，我们无需关心细节
+
+上线流程要点
+将测试完成的代码提交到git版本库的master分支
+将当前服务器的代码全部打包并记录版本号，备份
+将master分支的代码提交覆盖到线上服务器，生成新版本号
+
+回滚流程要点
+将当前服务器的代码打包并记录版本号，备份
+将备份的上一个版本号解压，覆盖到线上服务器，并生成新的版本号。
+
+linux基础命令
+mkdir
+ll
+ls
+cd a
+cd ..
+pwd(显示当前路径)
+rm -rf a(删除文件夹)
+vi a.js
+vim a.js
+输入i
+ecs
+:w 保存
+:q 退出
+:wq 保存，退出
+cp a.js
+mv
+rm a.js(删除文件)
+cat a.js
+head a.js
+tail a.js
+head -n 1 a.js 看第1行
+tail -n 2 a.js 看倒数后2行
+grep '2' a.js 搜索
+=========================================================================
+八.运行环境
+页面加载优化
+加载资源的形式：输入url(或跳转页面)加载html，加载html中的静态资源,<script src="/static/js/jquery.js"></script>
+加载一个资源的过程：
+1.从输入url到得到html的详细过程
+	浏览器根据DNS服务器解析得到域名的IP地址；
+	向这个ip的服务器发送http请求
+	服务器接收、处理并返回http请求
+	浏览得到返回内容
+	
+	浏览器渲染页面的过程
+	根据HTML结构生成DOM Tree
+	根据CSS生成CSSOM
+	将DOM和CSSOM整合形成Render Tree
+	根据Render Tree开始渲染和展示
+	遇到<script>时，会执行并阻塞渲染
+2.window.onload和DOMContentLoaded的区别
+window.onload 页面的全部资源加载完成才会执行，包括图片、视频等；
+window.addEventListener('load',function(){})
+DOMcontentLoaded DOM渲染完即可执行，此时图片、视频还可能没有加载完；
+window.addEventListener('DOMcontentLoaded',function(){})
+
+性能优化
+原则：多使用内存、缓存或者其他方法；减少CPU计算,减少网络请求，减少I/O操作
+加载页面和静态资源：静态资源的压缩合并；静态资源缓存；使用CDN让资源加载更快些；使用SSR后端渲染，数据直接输出到HTML中()。
+页面渲染:
+CSS放前面，JS放后面；
+懒加载(图片懒加载、下拉加载更多)；
+减少DOM查询，对DOM查询做缓存(循环时)；
+减少DOM操作，多个操作尽量合并在一起执行(合并DOM插入)；
+事件节流；
+尽早执行(如DOMcontentLoaded)
+缓存:通过连接名称控制缓存，只有内容改变的时候，链接名称才会改变
+使用SSR后端渲染：现在Vue React提出了这样的概念，其实jsp,php,asp都属于后端渲染。
+
+
+安全性
+XSS 跨站脚本攻击 
+在新浪博客写一篇文章，同时偷偷插入一段<script>
+攻击代码中，获取cookie，发送到自己的服务器
+发布博客，有人查看博客内容
+会把查看者的cookie发送到攻击者的服务器
+预防措施：
+前端替换关键字，例如替换<为&lt; >替换为&gt;
+后端替换
+
+XSRF 跨站请求伪造
+你已登录一个购物网站，正在浏览商品
+该网站付费接口是xxx.com/pay?id=100,但是没有任何验证
+然后你收到一封邮件，隐藏着<img src='xxx.com/pay?id=100'>
+你查看邮件的时候，就已经悄悄的付费购买了
+增加验证流程，如输入指纹、密码、短信验证码
+
+面试技巧
+XSS 
+express -e ./
+npm install
+理解XSS攻击的原理:
+
+反射型攻击：发出请求时，XSS代码出现在URL中，作为输入提交到服务器端，服务器端解析响应后，XSS代码随响应内容一起传回给浏览器，最后浏览器解析之星XSS代码。这个过程像一次反射，故叫反射型XSS。
+存储型攻击：提交的代码会存储在服务端(数据库，内存，文件系统)，下次请求目标页面时不用再提交XSS代码
+
+XSS的防御措施
+编码，对用户输入的数据进行HTML Entity编码
+过滤，移除用户上传的DOM属性，如onerror等；移除用户上传的Style节点、Script节点、Iframe/frame节点等
+校正，避免直接对HTML Entity解码；使用DOM Parse转换，校正不配对的DOM标签
+
+Vue组件化思想
+如何拆分？300行原则
+Vue代码规范，风格指南
+好习惯，少走坑
+写出自己看得懂的代码
+写出别人看得懂的代码
