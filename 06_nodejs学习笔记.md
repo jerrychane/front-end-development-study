@@ -48,6 +48,22 @@ $ make test
 $ make install
 ```
 
+**确保安装成功**
+
+打开终端，输入node -version(简写-v)
+
+### 1.4 Node REPL
+
+**REPL**(Read-Eval-Print Loop)，要运行Node的REPL，在终端输入node即可。例如
+
+\> Object.keys(global) (注意：>表示要在REPL中输入)
+
+REPL常用于验证一些Node AP和JavaScript API
+
+### 1.5 执行文件
+
+Node可以通过node命令来执行Node脚本，创建一个my-web-server.js文件，输入如下内容：
+
 
 
 ## 5 命令行工具(CLI)以及FS API：首个Node应用
