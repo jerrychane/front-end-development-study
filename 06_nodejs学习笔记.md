@@ -6,7 +6,7 @@
 
 ### 1.1 在Windows下安装
 
-Windows用户要安装Node.js，只需前往其官网http://nodejs.org下载MSI安装包即可，安装包文件名遵循node-v?.?.?.msi的格式。
+Windows用户要安装Node.js，只需前往其官网 http://nodejs.org 下载MSI安装包即可，安装包文件名遵循node-v?.?.?.msi的格式。
 
 要验证是否安装成功，可以打开shell或者通过执行cmd.exe打开命令行工具并输入```$ node -version```，如果安装成功，就会显示安装的Node.js的版本号。
 
