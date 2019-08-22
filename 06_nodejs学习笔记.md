@@ -24,8 +24,28 @@ Windows用户要安装Node.js，只需前往其官网http://nodejs.org下载MSI�
 
 例如，在Amazon Linux中，可以通过如下命令来安装依赖包：
 
-```sudo yum install gcc gcc-c++ open
+```
 sudo yum install gcc gcc-c++ open
+```
+
+在Ubuntu中，安装方式稍有不同，命令如下：
+
+``` javascript
+sudo apt-get install g++ libssl-dev apache2-utils curl  
+```
+
+**编译**
+
+在操作系统终端下，运行如下命令：
+
+```
+$ curl -O http://nodejs.org/dist/node-v?.?.?.tar.gz
+$ tar -xzvf node-v?.?.?.tar.gz //解压缩
+$ cd node-v?.?.?
+$ ./configure
+$ make
+$ make test
+$ make install
 ```
 
 
