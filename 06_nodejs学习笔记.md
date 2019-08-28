@@ -50,7 +50,7 @@ $ make install
 
 **确保安装成功**
 
-打开终端，输入node -version(简写-v)
+打开终端，输入node -version(简写node -v)
 
 ### 1.4 Node REPL
 
@@ -63,6 +63,17 @@ REPL常用于验证一些Node AP和JavaScript API
 ### 1.5 执行文件
 
 Node可以通过node命令来执行Node脚本，创建一个my-web-server.js文件，输入如下内容：
+
+```javascript
+var http = require('http');
+var serv = http.createServer(function(req,res) {
+    res.writeHead(200,{ 'Content-Type':'text/html' });
+    res.end('<marquee>Awesome Node.js </marquee>');
+});
+serv.listen(3000);
+```
+
+
 
 
 
