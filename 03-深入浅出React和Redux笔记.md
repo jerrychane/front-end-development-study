@@ -7,28 +7,30 @@
 #### 1.2 增加一个新的React组件 ####
 React的首要思想是通过组件(Component)来开发应用。所谓组件，指的是能够完成某个特定功能的独立的，可重用的代码。React非常适合构建用户交互组件。如下增加一个CouterClick组件：
 
-		import React,{ Component } from 'react';
-		class ClickCounter extends Component {
-			constructor(props){
-			super(props);
-			this.onClickButton = this.onClickButton.bind(this);
-			this.state = {count:0};
-			}
-			onClickButton(){
-			this.setState({count:this.state.count + 1});
-			}
-			render(){
-			return (
-			<div>
-			<button onClick={this.onClickButton}>Click Me</button>
-			<div>
-			Click Count:{this.state.count}
-			</div>
-			</div>
-			)
-			}
+```js
+	import React,{ Component } from 'react';
+	class ClickCounter extends Component {
+		constructor(props){
+		super(props);
+		this.onClickButton = this.onClickButton.bind(this);
+		this.state = {count:0};
 		}
-		export default ClickCounter;
+		onClickButton(){
+		this.setState({count:this.state.count + 1});
+		}
+		render(){
+		return (
+		<div>
+		<button onClick={this.onClickButton}>Click Me</button>
+		<div>
+		Click Count:{this.state.count}
+		</div>
+		</div>
+		)
+		}
+	}
+	export default ClickCounter;
+```
 #### 1.2.1 JSX ####
 JSX是JavaScript的语法扩展(eXtension),在JSX中使用的"元素"不限于HTML中的元素，可以是任何一个React组件。React判断一个元素是HTML还是React组件的原则就是看**第一个字母是否大写**。<br>
 在JSX中可以通过**onClick方式**给一个元素添加一个事件处理函数。
@@ -46,21 +48,23 @@ JSX的onClick事件处理方式与HTML的onclick的区别？<br>
 babel会把ES6语法的JavaScript代码转译(transpile)成浏览器普遍支持的JavaScript代码。
 #### 1.4 React的工作方式 ####
 #### 1.4.1jQuery如何工作 ####
-	<div>
-        <button id="clickMe">Click Me</button>
-        <div>Click Count:<span id="clickCount">0</span></div>
-    </div>
-    <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
-    <script>
-        $(function(){
-            $('#clickMe').click(function(){
-                var clickCounter = $('#clickCount');
-                var count = parseInt(clickCounter.text(),10);
-                clickCounter.text(count+1); 
-            })
+```js
+<div>
+    <button id="clickMe">Click Me</button>
+    <div>Click Count:<span id="clickCount">0</span></div>
+</div>
+<script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+<script>
+    $(function(){
+        $('#clickMe').click(function(){
+            var clickCounter = $('#clickCount');
+            var count = parseInt(clickCounter.text(),10);
+            clickCounter.text(count+1); 
         })
-    </script>
-	
+    })
+</script>
+```
+
 在jQuery的解决方案中，首先根据CSS规则找到id为clickCount的按钮，挂上一个匿名事件处理函数，在事件处理函数中，选中那个需要被修改的DOM元素，读取其中的文本值，加以修改，然后修改这个DOM元素。<br>
 对于庞大的项目，这种模式会造成代码结构复杂，难以维护。<br>
 #### 1.4.2 React理念 ####
@@ -81,53 +85,61 @@ React利用**函数式编程**的思想来解决用户界面渲染的问题，�
 **低耦合**指的是不同组件之间的依赖关系要尽量弱化，也就是每个组件要尽量独立。
 #### 2.2 React组件的数据 ####
 > 差劲的程序员操心代码，优秀的程序员操心数据结构和它们之间的关系。—— Linux Torvalds,Linux创始人 
-	 
+
 React组件的数据分为两种，prop和state，无论prop或state改变，都可能引发组件的重新渲染。prop是组件的对外接口，state是组件的内部状态，对外用prop，内部用state。
 #### 2.2.1 React的prop ####
 在React中，prop是从外部传递给组件的数据，一个React通过定义自己能够接受的prop就定义了自己的对外公共接口。<br>
 **1.给prop赋值**<br>
 	
-	<SampleButton id='sample' borderWidth={2} onClick={onButtonClick} style={{color:'red'}}></SampleButton>
+```js
+<SampleButton id='sample' borderWidth={2} onClick={onButtonClick} style={{color:'red'}}></SampleButton>
+```
 上面的id、borderWidth、onClick、style都是组件SampleButton的prop,React组件的prop支持的类型很丰富，除了字符串，可以使数字类型，函数类型和对象。<br>
 当外部世界要传递一些数据给React组件，一个最直接的方式就是通过prop;同样，React组件要反馈数据给外部世界，也可以用prop。让父组件交给子组件一个回调函数，子组件在恰当的时间调用该回调函数，可以带上必要的参数，这样反过来就把信息传递给外部世界了。<br>
 对于Counter组件，父组件ControlPanel就是外部世界，ControlPanel用prop传递信息给Counter的代码如下：<br>
 
-	class ControlPanel extend Component {
-	render(){
-		return (
-			<div>
-				<Counter caption="First" initvalue={0}>
-				<Counter caption="Second" initvalue={10}>
-				<Counter caption="Third" initvalue={20}>
-			</div>
-		);
-		}
+```js
+class ControlPanel extend Component {
+render(){
+	return (
+		<div>
+			<Counter caption="First" initvalue={0}>
+			<Counter caption="Second" initvalue={10}>
+			<Counter caption="Third" initvalue={20}>
+		</div>
+	);
 	}
+}
+```
 在每个Counter实例中都使用了caption和initValue两个prop，父组件ControlPanel将值传递个子组件Counter。<br>
 **2.读取prop值**<br>
 Counter内部是如何接收传入的prop的，首先是构造函数，代码如下：<br>
 	
-	class Counter extends Component{
-    constructor(props){
-        super(props);
+```js
+class Counter extends Component{
+constructor(props){
+    super(props);
 
-        this.onClickIncrementButton = this.onClickIncrementButton.bind(this);
-        this.onClickDecrementButton = this.onClickDecrementButton.bind(this);
+    this.onClickIncrementButton = this.onClickIncrementButton.bind(this);
+    this.onClickDecrementButton = this.onClickDecrementButton.bind(this);
 
-        this.state = {count:props.initValue || 0} }
-	}
+    this.state = {count:props.initValue || 0} }
+}
+```
 在构造函数中可以通过参数props获得传入prop值，在其他函数中则可以通过this.props访问传入的值，例如在Counter的render函数中通过this.props获得传入的caption,代码如下：
 	
-	render(){
-    const {caption} = this.props;//解构赋值(destructing assignment)
-    return (
-        <div>
-			<button style={buttonStyle} onClick={this.onClickIncrementButton}>+</button>
-			<button style={buttonStyle} onClick={this.onClickDecrementButton}>-</button>
-			<span>{caption} count:{this.state.count}</span>
-        </div>
-        );
-	}
+```js
+render(){
+const {caption} = this.props;//解构赋值(destructing assignment)
+return (
+    <div>
+		<button style={buttonStyle} onClick={this.onClickIncrementButton}>+</button>
+		<button style={buttonStyle} onClick={this.onClickDecrementButton}>-</button>
+		<span>{caption} count:{this.state.count}</span>
+    </div>
+    );
+}
+```
 **3.propTypes检查**<br>
 用来规范prop对外接口，包括**该组件支持哪些prop**和**每个prop应该是什么格式**<br>
 可以增加类propTypes属性来定义prop规格，这不只是声明，而且是一种限制，在运行时和静态代码检查时，都可以根据propTypes判断外部世界是否正确使用了组件的属性。<br>
@@ -135,16 +147,19 @@ Counter内部是如何接收传入的prop的，首先是构造函数，代码如
     `npm install prop-types`<br>
 然后就可以增加propTypes类，代码如下：
 
-	Counter.propTypes = {
-		caption:PropTypes.string.isRequired,//caption必须是string
-		initValue:PropTypes.number //initValue必须是number
-	}
+```js
+Counter.propTypes = {
+	caption:PropTypes.string.isRequired,//caption必须是string
+	initValue:PropTypes.number //initValue必须是number
+}
+```
 propTypes检查只是一个辅助开发的工具，并不会改变组件的行为，适合在开发过程中避免犯错，在产品环境中应尽量避免使用。
 **2.2.2 React的state**
 驱动组件渲染过程的除了prop，还有state,stat代表组建的内部状态。由于React组件不能修改传入的prop，所以需要记录自身数据的变化，就要使用state。<br>
 **1.初始化state**<br>
 通常在组件类的构造函数结尾处初始化state,通过this.state的赋值完成对组件的初始化，代码如下：<br>
 	
+
 	constructor(){
 		...
 		this.state = {count:props.initValue || 0}
@@ -182,24 +197,30 @@ React严格定义了组件的生命周期，生命周期可能会经历如下三
 (1)**初始化state** （2）**绑定成员函数的this环境**
 通过bind绑定的函数被调用时，this始终指向当前组件实例。在某些教程中会看到另一种bind函数的方式，使用两个冒号的::操作符(bind操作符)，类似下面的语句：<br>
 
-	this.foo = ::this.foo; 等同于 this.foo = this.foo.bind(this);
+```js
+this.foo = ::this.foo; 等同于 this.foo = this.foo.bind(this);
+```
 **2.getInitailState和getDefaultProps**<br>
 getInitialState函数的返回值会用来初始化组件的this.state,但这个方法只有用React.createClass()方法创造的组件类才会发生作用；<br>
 getDefaultProps函数的返回值可以作为props的初始值，同样只有用React.createClass()方法(Facebook官方已逐渐弃用)创造的组件类才可以使用。代码如下:<br>
 
-	const Sample = React.createClass({
-		getInitailState:function(){return {foo:'bar'};}，
-		getDefaultProps:function(){return {sampleProp:0};}
-	});
+```js
+const Sample = React.createClass({
+	getInitailState:function(){return {foo:'bar'};}，
+	getDefaultProps:function(){return {sampleProp:0};}
+});
+```
 用ES6的话，在构造函数中给通过this.state赋值完成状态的初始化，通过给**类属性(注意是类属性，而不是类的实例对象属性)defaultProps**赋值指定props初始值，达到完全一样的效果。代码如下：
 
-	class Sample extends React.Component{
-		constructor(props){
-			super(props);
-			this.state = {foo:'bar'};
-		}
-		Sample.defaultProps = {sampleProp:0}
+```js
+class Sample extends React.Component{
+	constructor(props){
+		super(props);
+		this.state = {foo:'bar'};
 	}
+	Sample.defaultProps = {sampleProp:0}
+}
+```
 注意：getInitailState只出现在装载过程中，在一个组件的生命周期过程中，该函数只被调用一次，所以不要在里面放置预期会被执行多次的代码。<br>
 **3.render**<br>
 render函数无疑是React中最重要的函数，组件要渲染，必须依靠render,但render并不做实际的渲染动作，它只返回一个JSX描述的结构，最终由React来操作渲染过程。<br>
