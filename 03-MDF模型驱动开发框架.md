@@ -93,7 +93,7 @@ args 为请求参数内容； commonVOs: 需过滤配置了对应的过滤项；
 
 #### 加载流程和逻辑说明
 
-##### Node 端扩展脚本路径拼接
+##### 1.Node 端扩展脚本路径拼接
 
 Node 端拿到 Java 传过来的标准协议后，做了如下转换，新增了三个字段到客户端：
 
@@ -120,7 +120,7 @@ const _getVmName = (obj) => {
 | 模板扩展的vm名称     | extendVmName   | AA_aa_orgtree_VM_Extend    |
 | 模板vm名称           | vmName         | A_aa_orgtree_VM            |
 
-##### Node 端自动生成的页面模型中加载扩展脚本
+##### 2.Node 端自动生成的页面模型中加载扩展脚本
 
 ```js
 ......
