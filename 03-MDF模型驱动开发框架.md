@@ -1,4 +1,4 @@
-##### 查询方案扩展
+#### 查询方案扩展
 
 ##### 1.命名规则
 
@@ -90,3 +90,92 @@ proxy.getInitFilterInfo(params,function(errors,result) {
 ```
 
 args 为请求参数内容； commonVOs: 需过滤配置了对应的过滤项； simpleVOs: 根据自己的后台元数据描述
+
+#### 加载流程和逻辑说明
+
+##### Node 端扩展脚本路径拼接
+
+Node 端拿到 Java 传过来的标准协议后，做了如下转换，新增了三个字段到客户端：
+
+```js
+// viewmeta.vmName = viewmeta.cSubId + '_' + viewmeta.cBillNum + '_' + "VM";
+viewmeta.vmName = _getVmName(viewmeta);
+
+// viewmeta.extendFileName = viewmeta.vmName + '.Extend.js';
+viewmeta.extendFileName = _getExtendVmFildName(viewmeta,extendName);
+
+// viewmeta.extendVmName = viewmeta.vmName + '_Extend';
+viewmeta.extendVmName = _getExtendVmName(viewmeta,extendName);
+
+......
+const _getVmName = (obj) => {
+	if(!obj) return;
+	return obj.cSubId + '_' + obj.cBillNum +'_'  + 'VM';
+}
+```
+
+| 字段说明             | 字段名称       | 值                         |
+| -------------------- | -------------- | -------------------------- |
+| 模板扩展脚本文件名称 | extendFileName | AA_aa_orgtree_VM.Extend.js |
+| 模板扩展的vm名称     | extendVmName   | AA_aa_orgtree_VM_Extend    |
+| 模板vm名称           | vmName         | A_aa_orgtree_VM            |
+
+##### Node 端自动生成的页面模型中加载扩展脚本
+
+```js
+......
+model.prototype.initData = function () {
+	......
+	// 如：RM/RM_rm_retailvouch_VM_billing.Extend.js
+	var extendFile = '<%=subId%> / <%=extendFileName%>';
+	cb.require([extendFile],function() {
+		......
+	},function(error) {
+		......
+	});
+};
+......
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
