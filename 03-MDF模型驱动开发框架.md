@@ -163,6 +163,67 @@ model.prototype.initData = function () {
 ```
 一般会把通用的业务逻辑进行抽取放到 common 中，在business 中建立一个 common文件夹，里面放入一些公共逻辑。其他各业务节点可以先将公共脚本载入进行依赖。
 
+#### FreeView 扩展
+
+当通用的页面模板满足不了需求时，框架提供了 FreeView 的扩展。多端协议里面的 UIMeta 负责 UI 模板渲染，业务逻辑都需要用户在单据扩展脚本中实现。
+
+##### 1. 核心思想
+
+(1) MDD 框架负责 UI 模板渲染，业务数据请求加载交给开发者；
+
+(2) 在扩展文件中使用 api 实现业务数据加载；
+
+(3) 如果是列表，通过列表的 GridModel 的 setDataSource 来加载数据；
+
+(4) UIMeta 负责将页面渲染出来；
+
+(5) 使用 extend.js 调用平台 API 来做数据加载；
+
+(6) viewmodel 自动将数据更新到 React 组件；
+
+##### 2. 示例代码
+
+```js
+cb.define(['common/common_VM.extend.js'], function(common) {
+  var PU_pu_pursettlemanualmenu_VM_Extend = {
+    doAction: function(name, viewmodel) {
+      if (this. [name]) {
+        this[name](viewmodel);
+      }
+    },
+    init: function(viewmodel) {
+      // console.log('abc');
+      var bFilter = false;
+      viewmodel.on('filterClick', function(data) {
+        if (bFilter) {
+          viewmodel.get('pu_pursettlemanualmenu_rd').setDataSource({ url: '/bill/list', method: 'POST' }, { billnum: 'pu_pursettlemanualmenu_rd', condition: data.condition });
+
+          viewmodel.get('pu_pursettlemanualmenu_fp').setDataSource({ url: '/bill/list', method: 'POST' }, { billnum: 'pu_pursettlemanualmenu_fp', condition: data.condition });
+        } else {
+          bFilter = true;
+        }
+      });
+
+      viewmodel.on("settle", function(args) {
+        var datard = viewmodel.get('pu_pursettlemanualmenu_rd').setSelectedRows();
+        var datafp = viewmodel.get('pu_pursettlemanualmenu_fp').setSelectedRows();
+        var data = { rd: datard, fp: datafp };
+
+        var callback = viewmodel.getParams().callback;
+        callback(data);
+        viewmodel.communication({ type: 'return' });
+      })
+    }
+  };
+  try {
+    module.exports = PU_pu_pursettlemanualmenu_VM_Extend;
+  } catch (error) {
+    console.log(error);
+  };
+  return PU_pu_pursettlemanualmenu_VM_Extend;
+});
+```
+
 
 
 
