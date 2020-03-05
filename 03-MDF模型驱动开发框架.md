@@ -137,8 +137,31 @@ model.prototype.initData = function () {
 ......
 ```
 
+##### 3.使用方式
 
+在扩展脚本中，可以获取页面控制层面的 model,调用相关 model 的 API 实现具体的特定的交互。
 
+```js
+	cb.define(['common/common_VM.Extend.js'],function(common) {
+		var SB_billNolist_VM_Extend = {
+			doAction:function(name,viewmodel) {
+				if(this[name]) {
+					this[name](viewmodel);
+				}
+			},
+			init:function(viewmodel) {
+				......
+			}
+		};
+		try {
+			module.exports = SB_billNolist_VM_Extend;
+		} catch(error) {
+			......
+		};
+		return SB_billNolist_VM_Extend;
+	})
+```
+一般会把通用的业务逻辑进行抽取放到 common 中，在business 中建立一个 common文件夹，里面放入一些公共逻辑。其他各业务节点可以先将公共脚本载入进行依赖。
 
 
 
