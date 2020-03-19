@@ -31,7 +31,7 @@ proxy.getInitFilterInfo(params,function(errors,result) {
 查询区扩展脚本的使用方式和单据扩展一致。
 
 ```js
-	cb.define([],funtion(common) {
+	cb.define(['common/common_list_VM.Extend.js'],funtion(common) {
 		var emm_emm_inspectstd_list_filterVM_Extend = {
 			doAction:function(name,viewmodel) {
 				if(this[name]) {
@@ -57,36 +57,36 @@ proxy.getInitFilterInfo(params,function(errors,result) {
 点击查询区搜索按钮是，在请求之前修改请求参数，实现根据具体的参数请求数据。
 
 ```js
-	cb.define([],function() {
-		var PC_pc_productlist_filterVM_Extend = {
-			doAction:function(name,viewmodel){
-				if(this[name]) {
-					this[name])(viewmodel);
-				}
-			},
-			init:function(viewmodel) {
-				// 点击查询区搜索按钮前，将字段参数传入
-				viewmodel.on('beforeSearch',function(args) {
-					// 设置具体的查询条件
-					var conditon = {
-						"isExtend":true,
-                        simpleVOs:[]
-					};
-					// 字段 stopstatus 等于0的数据进行查询
-					conditon.simpleVOs.push ({
-						field:'stopstatus',
-						op:'eq',
-						value1:0
-					});
-					this.setFilter(condition);
-				});
-			}
-		};
-		try {
-			module.exports = PC_pc_productlist_filterVM_Extend;
-		} catch (error) {console.log(error)};
-		return PC_pc_productlist_filterVM_Extend;
-	});
+cb.define([], function() {
+    var PC_pc_productlist_filterVM_Extend = {
+            doAction: function(name, viewmodel) {
+                if (this[name]) {
+                    this[name])(viewmodel);
+            }
+        },
+        init: function(viewmodel) {
+            // 点击查询区搜索按钮前，将字段参数传入
+            viewmodel.on('beforeSearch', function(args) {
+                // 设置具体的查询条件
+                var conditon = {
+                    "isExtend": true,
+                    simpleVOs: []
+                };
+                // 字段 stopstatus 等于0的数据进行查询
+                conditon.simpleVOs.push({
+                    field: 'stopstatus',
+                    op: 'eq',
+                    value1: 0
+                });
+                this.setFilter(condition);
+            });
+        }
+};
+try {
+    module.exports = PC_pc_productlist_filterVM_Extend;
+} catch (error) { console.log(error) };
+return PC_pc_productlist_filterVM_Extend;
+})
 ```
 
 args 为请求参数内容； commonVOs: 需过滤配置了对应的过滤项； simpleVOs: 根据自己的后台元数据描述
