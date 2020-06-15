@@ -3,3 +3,4 @@
 // var a = 5
 // console.log(a)
 // console.log(window.a)
+import './2-3'
