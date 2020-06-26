@@ -12,3 +12,4 @@ function foo (x, y) {
   console.log(this, x, y);
 }
 foo.bind({ name: 'jerrychane' }, 1, 2)()
+foo.bind({ name: 'jerrychane' })(1, 2)
