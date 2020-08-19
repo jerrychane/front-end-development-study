@@ -4,4 +4,4 @@
 // console.log(a)
 // console.log(window.a)
 // import './2-6'
-import './2-7'
+import './2-14'
