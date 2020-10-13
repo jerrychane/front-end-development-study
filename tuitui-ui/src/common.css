@@ -1,0 +1,32 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: JerryChane
+ * @Date: 2020-10-12 17:07:46
+ * @LastEditors: JerryChane
+ * @LastEditTime: 2020-10-13 10:44:53
+ */
+/* 屏幕宽度在340px到410px时的样式 */
+/* 屏幕宽度在340px到410px时,基准尺寸使用20px */
+/* 样式2 */
+html {
+  font-size: 20px;
+}
+
+/* 屏幕宽度小于340px时的样式 */
+/* 屏幕宽度小于340px时,基准尺寸使用18px */
+@media (max-width:340px) {
+  /* 样式1 */
+  html {
+    font-size: 18px;
+  }
+}
+
+/* 屏幕宽度大于410px时的样式 */
+/* 屏幕宽度大于410px时,基准尺寸使用22px */
+@media (min-width:410) {
+  /* 样式3 */
+  html {
+    font-size: 22px;
+  }
+}

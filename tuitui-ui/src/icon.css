@@ -1,0 +1,14 @@
+/*
+ * @Descripttion: 
+ * @version: 
+ * @Author: JerryChane
+ * @Date: 2020-10-13 11:08:34
+ * @LastEditors: JerryChane
+ * @LastEditTime: 2020-10-13 13:41:35
+ */
+/* 字体图标，依赖 font-awesome */
+@import '//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css';
+.fa {
+  display: inline-block;
+  text-align: center;
+}
