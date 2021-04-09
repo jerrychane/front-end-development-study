@@ -9,28 +9,34 @@
 </head>
 <body>
     <div id="app">
-        <!-- 在此补充代码 -->
-        <input type="text" v-model="inputValue"/>
-        <button v-on:click="add">添加</button>
+        <input type="text" v-model="inputValue" />
+        <button v-on:click="handleBtnClick">提交</button>
         <ul>
-            <li v-for="item in lists">{{item}}</li>
+            <!-- <li v-for="item in list">{{item}}</li> -->
+            <todo-item 
+                v-bind:content="item"  
+                v-for="item in list">
+            </todo-item>
         </ul>
     </div>
     <script>
-    // 在此补充代码
-    let app = new Vue({
-        el:"#app",
-        data:{
-            lists:[],
-            inputValue:''
-        },
-        methods:{
-           add:function () {
-                   this.lists.push(this.inputValue);
-                   this.inputValue = '';
-           } 
-        }
-    });
+        Vue.component("TodoItem",{
+            props:['content'],
+            template: "<li>{{content}}</li>"
+        })
+        var app = new Vue({
+            el:'#app',
+            data:{
+                list:[],
+                inputValue:''
+            },
+            methods:{
+                handleBtnClick:function() {
+                    this.list.push(this.inputValue)
+                    this.inputValue = ''
+                }
+            }
+        })
     </script>
 </body>
 </html>
