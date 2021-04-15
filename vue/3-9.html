@@ -10,6 +10,7 @@
 <body>
     <div id="app">
         {{fullName}}
+        <!-- {{fullName()}} -->
         {{age}}
     </div>
 </div>
@@ -19,15 +20,34 @@
         data:{
             firstName:'jerry',
             lastName:'chane',
+            fullName:'jerry chane',
             age:28
         },
-        //计算属性，内置缓存处理
-        computed: {
+        //监听器：都有缓存处理，但代码较复杂
+        watch: {
+            firstName() {
+                console.log('计算了一次');
+                this.fullName = this.firstName + " " + this.lastName; 
+            },
+            lastName() {
+                console.log('计算了一次');
+                this.fullName = this.firstName + " " + this.lastName; 
+            }
+        },
+        //方法:内部没有缓存机制
+       /*  methods: {
             fullName() {
                 console.log('计算了一次');
                 return this.firstName + " " + this.lastName
             }
-        },
+        }, */
+        //计算属性，内置缓存处理
+      /*   computed: {
+            fullName() {
+                console.log('计算了一次');
+                return this.firstName + " " + this.lastName
+            }
+        }, */
 
     })
 </script>
