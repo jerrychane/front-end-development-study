@@ -11,11 +11,14 @@
 
 <body>
     <div id="app">
-        <div v-if="show" data-test="v-if">
-            {{message}}
+        <div v-if="show === 'a'" data-test="v-if">
+          This is A
         </div>
-        <div v-show="show" data-test="v-show">
-            {{message}}
+        <div v-else-if ="show === 'b'">
+           This is B
+         </div>
+        <div v-else>
+           This is others
         </div>
     </div>
     <script>
@@ -23,7 +26,7 @@
             el: '#app',
             data:{
                 message:'Hello World',
-                show:false
+                show:'a'
             },
             methods: {},
         })
