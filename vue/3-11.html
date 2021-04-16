@@ -5,20 +5,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>计算属性的setter和getter</title>
+    <title>Vue中的样式绑定</title>
     <script src="./vue.js"></script>
-    <style>
-        .activated {
-            color:red
-        }
-    </style>
 </head>
 
 <body>
     <div id="app">
         <div 
-        @click="handleDivClick" 
-        :class="[activated]"
+        :style="[styleObj,{fontSize:'20px'}]"
+        @click="handleDivClick"
         >
         Hello world
     </div>
@@ -28,11 +23,13 @@
         var vm = new Vue({
             el: '#app',
             data:{
-                activated:""
+                styleObj:{
+                    color:"black"
+                }
             },
             methods: {
                 handleDivClick() {
-                    this.activated = this.activated === "activated" ? "" : "activated";
+                    this.styleObj.color = this.styleObj.color === "black" ? "red" : "black"
                 }
             },
         })
