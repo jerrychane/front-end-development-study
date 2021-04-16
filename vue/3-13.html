@@ -11,14 +11,11 @@
 
 <body>
     <div id="app">
-        <div v-if="show === 'a'" data-test="v-if">
-          This is A
+        <div v-if="show">
+            用户名：<input key="username"/>
         </div>
-        <div v-else-if ="show === 'b'">
-           This is B
-         </div>
         <div v-else>
-           This is others
+            邮箱名：<input key="password"/>
         </div>
     </div>
     <script>
@@ -26,7 +23,7 @@
             el: '#app',
             data:{
                 message:'Hello World',
-                show:'a'
+                show:false
             },
             methods: {},
         })
