@@ -11,10 +11,15 @@
 
 <body>
     <div id="app">
-        <template v-for="(item,index) of list" :key="item.id">
+        <template v-for="(item,index) of list">
             <div> {{item.text}} ---- {{item.id}} </div>
             <span> {{item.text}} ---- {{item.id}} </span>
         </template>
+        <template>
+        <div v-for="(item,key,index) of userInfo">
+            {{item}} ---- {{key}} ---- {{index}}
+        </div>
+    </template>
     </div>
     <script>
         // 改变数组方法1:
@@ -32,7 +37,13 @@
                     { id: "1004", text: "to" },
                     { id: "1005", text: "meet" },
                     { id: "1006", text: "you" }
-                ]
+                ],
+                userInfo:{
+                    name:'Jerry',
+                    age:31,
+                    gender:'male',
+                    salary:'secret'
+                }
             },
             methods: {},
         })
