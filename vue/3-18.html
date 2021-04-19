@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue中的set方法</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <template v-for="(item,index) of list">
+            <div> {{item}} </div>
+        </template>
+    </div>
+    <script>
+        // 改变数组方法1:
+        // push pop shift unshift splice sort reverse
+        // 直接操作下标的方式是不行的，数据不会被改变
+        // 改变数组方法2:
+        // 改变数组的引用，vm.list 为一个新的数组
+        // 改变数组方法3：
+        // Vue.set(vm.list,1,5)
+        // vm.$set(vm.list,2,10)
+        var vm = new Vue({
+            el: '#app',
+            data: {
+             list:[1,2,3,4]
+            },
+            methods: {},
+        })
+    </script>
+</body>
+
+</html>
