@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue中的事件绑定</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <!-- 修饰符 -->
+    <!-- @click.prevent 阻止默认行为 -->
+    <!-- @click.stop 阻止事件冒泡 -->
+    <!-- @click.self 只要点击当前元素时 -->
+    <div id="app">
+         <!-- <button @click="handleClick($event,1,2,3)">Button</button> -->
+         <!-- <form action="/abc" @click="handleClickSubmit"> -->
+            <form action="/abc" @click.prevent>
+            <input type="submit"/> 
+        </form>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+             list:[1,2,3,4]
+            },
+            methods: {
+                handleClick(e,one,two,three) {
+                    console.log(e,one,two,three);
+                },
+                handleClickSubmit(e) {
+                    e.preventDefault();
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
