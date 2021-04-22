@@ -14,14 +14,20 @@
     <!-- v-model.num -->
     <!-- v-model.trim -->
     <div id="app">
-        <input type='text' v-model.lazy ="value">
-        {{value}}
+        <input type='text' v-model.lazy ="value1">
+        {{value1}}
+        <input type='text' v-model.num ="value2">
+        {{value2}}
+        <input type='text' v-model.num ="value3">
+        {{value3}}
     </div>
     <script>
         var vm = new Vue({
             el: '#app',
             data: {
-                value:""
+                value1:"",
+                value2:"",
+                value3:""
             },
             methods: {
                 
