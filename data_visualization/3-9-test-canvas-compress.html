@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test canvas compress</title>
+    <title> </title>
 </head>
 
 <body>
@@ -24,7 +24,7 @@
             });
             reader.readAsDataURL(file);
         }
-        function compress(base64Image) {
+        function compress(base64Image,callback) {
             let maxW = 1024;
             let maxH = 1024;
             console.log(base64Image);
@@ -32,21 +32,48 @@
             image.addEventListener('load', e => {
                 let radio;// 压缩比
                 let needCompress = false;// 是否需要压缩
+                console.log(image.naturalWidth,image.naturalHeight);
                 if(maxW < image.naturalWidth){
                     needCompress = true;
-                    ratio = image.naturalWidth/maxW;
-                    maxH = image.naturalHeight/radio;
-                }
+                    ratio = image.naturalWidth / maxW;
+                    maxH = image.naturalHeight / ratio;
+                } // 经过处理后的图片尺寸为 1024 * 640
                 if(maxH < image.naturalHeight) {
                     needCompress = true;
-                    ratio = image.naturalHeight/maxH;
-                    maxW = image.naturalWidth/radio;
+                    ratio = image.naturalHeight / maxH;
+                    maxW = image.naturalWidth / ratio;
                 }
+                if(!needCompress) {
+                    maxW = image.naturalWidth;
+                    maxH = image.naturalHeight;
+                } // 如果不需要压缩，获取图片的实际尺寸
+                console.log(maxW,maxH);
+                const canvas = document.createElement('canvas');
+                canvas.setAttribute('id','__compress__');
+                canvas.width = maxW;
+                canvas.height = maxH;
+                canvas.style.visibility = 'visible';
+                document.body.appendChild(canvas);
 
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0,0,maxW,maxH);
+                ctx.drawImage(image,0,0,maxW,maxH);
+
+                const compressImage = canvas.toDataURL('image/jpeg',0.9);
+                callback && callback(compressImage);
+                canvas.remove()
+                console.log('compressImage:',compressImage);
+                const _image = new Image();
+                _image.src = compressImage;
+                document.body.appendChild(_image);
+                
+                console.log('压缩比:' + image.src.length / _image.src.length)
             })
             image.src = base64Image;
-            document.body.appendChild(image);
-
+            // document.body.appendChild(image);
+        }
+        function uploadToServer(compressImage) {
+            console.log('upload to server ...',compressImage);
         }
         const upload = document.getElementById('upload');
         upload.addEventListener('change', e => {
@@ -68,7 +95,7 @@
                 return;
             }
             // 压缩图片
-            convertImageToBase64(file, compress);
+            convertImageToBase64(file, (base64Image) => compress(base64Image,uploadToServer));
         })
     </script>
 </body>
