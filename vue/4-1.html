@@ -21,7 +21,10 @@
     </div>
     <script>
         Vue.component('row',{
-            template:'<tr><td>this is a row</td></tr>'
+            data: function () { // 在子组件中定义 data，只能是函数而不能是对象
+               return  {content:'this is a row'}
+            },
+            template:'<tr><td>{{content}}</td></tr>'
         })
         var vm = new Vue({
             el: '#root',
