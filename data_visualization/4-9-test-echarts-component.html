@@ -36,8 +36,34 @@
             },
             yAxis:{},
             legend:{
-                data:['分类','折线图','柱状图']
+                data:[
+                    {
+                        name:'分类',
+                        icon:'circle',
+                        textStyle: {
+                            color:'red'
+                        }
+                    },
+                    '折线图','柱状图'
+                    ],
+                    left:200
             },
+            toolbox:{
+                feature:{
+                    saveAsImage: {},
+                    dataZoom:{
+                       yAxisIndex: false 
+                    },
+                    restore:{},
+                }
+            },
+            dataZoom:[
+                {
+                    show:true,
+                    start:30,
+                    end:70
+                }
+            ],
             series:[{
                 name:'分类',
                 type:'pie',
