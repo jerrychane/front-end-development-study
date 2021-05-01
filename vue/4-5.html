@@ -2,52 +2,37 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>组件参数校验与非props特性</title>
-    <script src="./vue.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>组件参数校验与非props特性</title>
+  <script src="./vue.js"></script>
 </head>
 
 <body>
-    <div id="root">
-        <counter :count="2" @inc='handleIncrease'></counter>
-        <counter :count="3" @inc='handleIncrease'></counter>
-        <div>{{total}}</div>
-    </div>
-    <script>
-        // 父组件 => 子组件，通过属性的形式传值
-        // 父组件传给子组件的值，子组件不能直接修改，子组件需要复制出一份，然后修改自己的数据
-        var counter = {
-            props: ['count'],
-            data() {
-                return { number: this.count }
-            },
-            template: '<div @click="handleClick">{{number}}</div>',
-            methods: {
-                handleClick() {
-                    this.number+=2;
-                      // 子组件通过事件触发 $emit 的形式向父组件传值
-                    this.$emit('inc',2)
-                }
-            },
-        }
-        var vm = new Vue({
-            el: '#root',
-            data:{
-                total:5
-            },
-            components: {
-                counter,
-            },
-            methods: {
-                // 子组件通过事件触发 $emit 的形式向父组件传值
-                handleIncrease(step) {
-                    this.total += step;
-                }
-            },
-        })
-    </script>
+  <div id="root">
+    <child content="hello world"></child>
+  </div>
+  <script>
+    Vue.component('child', {
+      props: {
+        //content: {
+        //  type: String,
+        //  //required: false,
+        //  //default:'default value',
+        //  validator: function (value) {
+        //    return value.length > 5;
+        //  }
+        //},
+      },
+      template: '<div>{{content}}</div>',
+      //template: '<div>hello</div>',
+
+    })
+    var vm = new Vue({
+      el: '#root',
+    })
+  </script>
 </body>
 
 </html>
