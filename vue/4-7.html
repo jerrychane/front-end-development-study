@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 在此补充代码 -->
+    <Child fruit="Apple"></Child>
+  </div>
+  <script>
+    // 在此补充代码
+    Vue.component('Child', {
+      props: {
+        fruit: {
+          type: String,
+          require: true,
+          default: '简单介绍下自己喜欢的这个水果吧',
+          validator: function (value) {
+            return value.length >= 5;
+          }
+        }
+      },
+      template: '<div>{{fruit}}</div>'
+    })
+
+    var vm = new Vue({
+      el: '#app'
+    })
+  </script>
+</body>
+
+</html>

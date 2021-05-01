@@ -16,14 +16,14 @@
   <script>
     Vue.component('child', {
       props: {
-        //content: {
-        //  type: String,
-        //  //required: false,
-        //  //default:'default value',
-        //  validator: function (value) {
-        //    return value.length > 5;
-        //  }
-        //},
+        content: {
+          type: String,
+          //required: false,
+          //default:'default value',
+          validator: function (value) {
+            return value.length > 5;
+          }
+        },
       },
       template: '<div>{{content}}</div>',
       //template: '<div>hello</div>',
