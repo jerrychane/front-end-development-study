@@ -1,0 +1,3 @@
+var Car = function(color) {
+  
+}
