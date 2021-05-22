@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4-12 编程练习</title>
+  <script src="./vue.js"></script>
+<style>
+  * {
+      padding: 0;
+      margin: 0;
+  }
+
+  #app {
+      text-align: center;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+      <body-component>
+          <!-- 在此补充代码 -->
+          <h1 slot="title">望岳</h1>
+      </body-component>
+  </div>
+  <script>
+  Vue.component('body-component', {
+      // 在此补充代码
+      template:`<div>
+      <slot name="title"></slot>
+      <center>杜甫</center>
+      <slot name="content">
+        岱宗夫如何？齐鲁青未了。
+        造化钟神秀，阴阳割昏晓。
+        荡胸生层云，决眦入归鸟。
+        会当凌绝顶，一览众山小。
+        </slot>
+      </div>
+      `
+  })
+  var vm = new Vue({
+      el: "#app"
+  })
+  </script>
+</body>
+
+
+</html>
