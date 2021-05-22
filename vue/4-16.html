@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>自由编程</title>
+  <script src="./vue.js"></script>
+  <style>
+    .center{
+      width:800px;
+      margin:100px auto;
+      text-align: center;
+    }
+    .item {
+      border:1px solid #f2f2f2;
+      overflow: hidden;
+    }
+    .item span {
+      float: left;
+      width: 33.33%;
+      font-size: 12px;
+      padding: 10px 0;
+    }
+    .item span.actived {
+      background-color: #ddd;
+    }
+    .result {
+      font-size: 12px;
+      padding: 5px;
+      margin:10px auto;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="root">
+    <div class="center">
+      <div class="item">
+        <span 
+          :class="curIndex === index ? 'actived':'' " 
+          v-for="(item,index) of list"
+          @click="handleClick(index)"
+        >
+        {{item}}
+      </span>
+      </div>
+      <div class="result">
+        
+        <component :is="showClass"></component>
+      </div>
+    </div>
+  </div>
+  <script>
+    Vue.component('child-one', {
+      template: `<div>前端工程师</div>`
+    })
+    Vue.component('child-two', {
+      template: `<div>Java工程师</div>`
+    })
+    Vue.component('child-three', {
+      template: `<div>软件测试工程师</div>`
+    })
+    var vm = new Vue({
+      data: {
+        list: ['前端工程师', 'Java工程师', '软件测试工程师'],
+        curIndex:0,
+        shows:['child-one','child-two','child-three'],
+        showClass:"child-one"
+      },
+      el: '#root',
+      methods: {
+        handleClick(index) {
+          this.curIndex = index;
+          this.showClass = this.shows[index];
+        }
+      },
+    })
+  </script>
+</body>
+
+</html>
