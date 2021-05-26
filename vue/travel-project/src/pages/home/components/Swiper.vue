@@ -11,21 +11,21 @@
 
 <script>
 export default {
-  name: 'HomeSwiper',
+  name: "HomeSwiper",
   data () {
     return {
       swiperOptions: {
-        pagination: '.swiper-pagination',
+        pagination: ".swiper-pagination",
         loop: true
       },
       swiperList: [{
-        id: '0001',
-        name: '八达岭',
-        imgUrl: '//img1.qunarzz.com/sight/p0/2005/39/3979f1867defec4ea3.water.jpg_600x330_2106404f.jpg'
+        id: "0001",
+        name: "八达岭",
+        imgUrl: "//img1.qunarzz.com/sight/p0/2005/39/3979f1867defec4ea3.water.jpg_600x330_2106404f.jpg"
       }, {
-        id: '0002',
-        name: '颐和园',
-        imgUrl: '//img1.qunarzz.com/sight/p0/2005/30/307fa37039eab5cba3.water.jpg_600x330_8db87481.jpg'
+        id: "0002",
+        name: "颐和园",
+        imgUrl: "//img1.qunarzz.com/sight/p0/2005/30/307fa37039eab5cba3.water.jpg_600x330_8db87481.jpg"
       }]
     }
   }
