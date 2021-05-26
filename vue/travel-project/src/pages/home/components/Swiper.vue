@@ -1,11 +1,8 @@
 <template>
 <div class="wrapper">
   <swiper :options="swiperOptions">
-    <swiper-slide>
-        <img class="swiper-img" src="//img1.qunarzz.com/sight/p0/2005/39/3979f1867defec4ea3.water.jpg_600x330_2106404f.jpg" alt="八达岭" />
-    </swiper-slide>
-    <swiper-slide>
-        <img class="swiper-img" src="//img1.qunarzz.com/sight/p0/2005/30/307fa37039eab5cba3.water.jpg_600x330_8db87481.jpg" alt="颐和园" />
+    <swiper-slide v-for="item of swiperList" :key="item.id">
+        <img class="swiper-img" :src="item.imgUrl" :alt="item.name" />
     </swiper-slide>
     <div class="swiper-pagination" slot="pagination"></div>
   </swiper>
@@ -17,13 +14,27 @@ export default {
   name: 'HomeSwiper',
   data () {
     return {
-      swiperOptions: {}
+      swiperOptions: {
+        pagination: '.swiper-pagination',
+        loop: true
+      },
+      swiperList: [{
+        id: '0001',
+        name: '八达岭',
+        imgUrl: '//img1.qunarzz.com/sight/p0/2005/39/3979f1867defec4ea3.water.jpg_600x330_2106404f.jpg'
+      }, {
+        id: '0002',
+        name: '颐和园',
+        imgUrl: '//img1.qunarzz.com/sight/p0/2005/30/307fa37039eab5cba3.water.jpg_600x330_8db87481.jpg'
+      }]
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
+.wrapper >>> .swiper-pagination-bullet-active
+    background: #fff
 .wrapper
     width 100%
     overflow hidden
