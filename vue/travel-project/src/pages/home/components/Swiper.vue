@@ -1,7 +1,7 @@
 <template>
 <div class="wrapper">
-  <swiper :options="swiperOptions">
-    <swiper-slide v-for="item of swiperList" :key="item.id">
+  <swiper :options="swiperOptions" v-if="showSwiper">
+    <swiper-slide v-for="item of list" :key="item.id">
         <img class="swiper-img" :src="item.imgUrl" :alt="item.name" />
     </swiper-slide>
     <div class="swiper-pagination" slot="pagination"></div>
@@ -12,21 +12,20 @@
 <script>
 export default {
   name: "HomeSwiper",
+  props: {
+    list: Array
+  },
   data () {
     return {
       swiperOptions: {
         pagination: ".swiper-pagination",
         loop: true
-      },
-      swiperList: [{
-        id: "0001",
-        name: "八达岭",
-        imgUrl: "//img1.qunarzz.com/sight/p0/2005/39/3979f1867defec4ea3.water.jpg_600x330_2106404f.jpg"
-      }, {
-        id: "0002",
-        name: "颐和园",
-        imgUrl: "//img1.qunarzz.com/sight/p0/2005/30/307fa37039eab5cba3.water.jpg_600x330_8db87481.jpg"
-      }]
+      }
+    }
+  },
+  computed: {
+    showSwiper () {
+      return this.list.length
     }
   }
 }
@@ -39,7 +38,7 @@ export default {
     width 100%
     overflow hidden
     height 0
-    padding-bottom 55%
+    padding-bottom 30%
     bacground #eee
     .swiper-img
         width 100%
