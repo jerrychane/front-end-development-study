@@ -5,6 +5,9 @@
         v-for="(item,key) of cities"
         :key="key"
         @click="handleLetterClick"
+        @touchstart="handleTouchStart"
+        @touchmove="handleTouchMove"
+        @touchend="handleTouchEnd"
         >
         {{key}}
         </li>
@@ -16,9 +19,23 @@ export default {
   props: {
     cities: Object
   },
+  data () {
+    return {
+      touchStatus: false
+    }
+  },
   methods: {
     handleLetterClick (e) {
       this.$emit("change", e.target.innerText)
+    },
+    handleTouchStart () {
+      this.touchStatus = true
+    },
+    handleTouchMove () {
+      console.log(this.touchStatus)
+    },
+    handleTouchEnd () {
+      this.touchStatus = false
     }
   }
 }
