@@ -10,7 +10,7 @@
       <div class="area">
         <div class="title border-topbottom">热门城市</div>
         <div class="button-list">
-          <div class="button-wrapper" v-for="item of hotCities" :key="item.id"><div class="button">{{item.name}}</div></div>
+          <div class="button-wrapper" v-for="item of hotCities" :key="item.id" @click="handleCityClick(item.name)"><div class="button">{{item.name}}</div></div>
         </div>
       </div>
       <div
@@ -36,9 +36,6 @@ export default {
     hotCities: Array,
     letter: String
   },
-  mounted () {
-    this.scroll = new BetterScroll(this.$refs.wrapper)
-  },
   watch: {
     letter () {
       if (this.letter) {
@@ -49,6 +46,14 @@ export default {
   },
   updated () {
     this.scroll.refresh()
+  },
+  methods: {
+    handleCityClick (city) {
+      this.$store.commit("changeCity", city)
+    }
+  },
+  mounted () {
+    this.scroll = new BetterScroll(this.$refs.wrapper)
   }
 }
 </script>
