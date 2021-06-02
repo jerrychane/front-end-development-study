@@ -5,6 +5,7 @@ import App from "./App"
 import VueAwesomeSwiper from "vue-awesome-swiper"
 import router from "./router"
 import fastClick from "fastclick"
+import store from "./store"
 import "styles/reset.css"
 // 解决移动端1px问题
 import "styles/border.css"
@@ -19,6 +20,7 @@ fastClick.attach(document.body)
 new Vue({
   el: "#app",
   router,
+  store,
   components: { App },
   template: "<App/>"
 })
