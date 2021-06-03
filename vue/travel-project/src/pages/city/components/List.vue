@@ -21,7 +21,7 @@
       >
         <div class="title border-topbottom" >{{key}}</div>
         <div class="item-list">
-          <div class="item border-bottom" v-for="innerItem of item" :key="innerItem.id">{{innerItem.name}}</div>
+          <div class="item border-bottom" v-for="innerItem of item" :key="innerItem.id" @click="handleCityClick(innerItem.name)">{{innerItem.name}}</div>
         </div>
       </div>
       </div>
@@ -50,6 +50,7 @@ export default {
   methods: {
     handleCityClick (city) {
       this.$store.commit("changeCity", city)
+      this.$router.push("/")
     }
   },
   mounted () {
