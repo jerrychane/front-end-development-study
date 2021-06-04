@@ -1,8 +1,16 @@
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 @font-face {
   font-family: "iconfont"; /* Project id 2565688 */
-  src: url('./iconfont/iconfont.woff2?t=1621761892327') format('woff2'),
-       url('./iconfont/iconfont.woff?t=1621761892327') format('woff'),
-       url('./iconfont/iconfont.ttf?t=1621761892327') format('truetype');
+  src: url('./iconfont/iconfont.woff2?t=1622767190745') format('woff2'),
+       url('./iconfont/iconfont.woff?t=1622767190745') format('woff'),
+       url('./iconfont/iconfont.ttf?t=1622767190745') format('truetype');
 }
 
 .iconfont {
@@ -12,3 +20,20 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.icon-tupian:before {
+  content: "\e691";
+}
+
+.icon-jiantou:before {
+  content: "\e64a";
+}
+
+.icon-fanhui:before {
+  content: "\e624";
+}
+
+.icon-sousuo:before {
+  content: "\e632";
+}
+
