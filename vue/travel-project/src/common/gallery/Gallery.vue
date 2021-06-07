@@ -2,11 +2,11 @@
     <div class="container">
         <div class="wrapper">
             <swiper :options="swiperOptions">
-                <swiper-slide>
-                    <img class="gallery-img"  src="//img1.qunarzz.com/sight/p0/201404/23/04b92c99462687fa1ba45c1b5ba4ad77.jpg_800x800_70debc93.jpg"/>
-                </swiper-slide>
-                 <swiper-slide>
-                    <img class="gallery-img"  src="//img1.qunarzz.com/sight/p0/1709/76/7691528bc7d7ad3ca3.img.png_800x800_9ef05ee7.jpg"/>
+                <swiper-slide
+                  v-for="(item, index) in imgs"
+                  :key="index"
+                >
+                    <img class="gallery-img"  :src="item"/>
                 </swiper-slide>
                 <div class="swiper-pagination" slot="pagination"></div>
             </swiper>
@@ -15,15 +15,26 @@
 </template>
 <script>
 export default {
-    name: "CommonGallery",
-    data () {
-        return {
-            swiperOptions: {
-                pagination: ".swiper-pagination",
-                paginationType: "fraction"
-            }
-        }
+  name: "CommonGallery",
+  props: {
+    imgs: {
+      type: Array,
+      default () {
+        return [
+          "//img1.qunarzz.com/sight/p0/201404/23/04b92c99462687fa1ba45c1b5ba4ad77.jpg_800x800_70debc93.jpg",
+          "//img1.qunarzz.com/sight/p0/1709/76/7691528bc7d7ad3ca3.img.png_800x800_9ef05ee7.jpg"
+        ]
+      }
     }
+  },
+  data () {
+    return {
+      swiperOptions: {
+        pagination: ".swiper-pagination",
+        paginationType: "fraction"
+      }
+    }
+  }
 }
 </script>
 <style lang="stylus" scoped>

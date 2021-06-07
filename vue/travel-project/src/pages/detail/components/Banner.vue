@@ -16,7 +16,7 @@
 import CommonGallery from "common/gallery/Gallery"
 export default {
   name: "DetailBanner",
-  components:{
+  components: {
     CommonGallery
   }
 }
