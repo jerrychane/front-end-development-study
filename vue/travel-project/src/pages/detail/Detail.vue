@@ -42,7 +42,7 @@ export default {
         this.sightName = data.sightName
         this.bannerImg = data.bannerImg
         this.gallaryImgs = data.gallaryImgs
-        this.list = this.categoryList
+        this.list = data.categoryList
       }
     }
   },
