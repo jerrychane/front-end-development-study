@@ -51,7 +51,7 @@ export default {
       }
       this.timer = setTimeout(() => {
         const result = []
-        for (let i in this.cities) {
+        for (const i in this.cities) {
           this.cities[i].forEach((value) => {
             if (value.spell.indexOf(this.keyword) > -1 || value.name.indexOf(this.keyword) > -1) {
               result.push(value)
@@ -63,7 +63,9 @@ export default {
     }
   },
   mounted () {
-    this.scroll = this.$refs.search && new BScroll(this.$refs.search)
+    this.scroll = this.$refs.search && new BScroll(this.$refs.search, {
+      click: true
+    })
   },
   updated () {
     this.scroll && this.scroll.refresh()
